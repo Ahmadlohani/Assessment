@@ -1,71 +1,91 @@
-import { useContext } from "react";
-import { UserContext } from "../context";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import AuthForm from "../components/Form/AuthForm";
-import { useRouter } from "next/router";
+import {
+	Box,
+	Button,
+	Container,
+	Grid,
+	Typography,
+} from "@mui/material";
+import SocialBar from "../components/AppBar/SocialBar";
+import TopBar from "../components/AppBar/TopBar";
+import Services from "../components/Services/Services";
+import Trades from "../components/Services/Trades";
+import Footer from "../components/Footer/Footer";
 
-const index = () => {
-	const { state, setState } = useContext(UserContext);
-	const [email, SetEmail] = useState("");
-	const [password, SetPassword] = useState("");
-	const [loading, SetLoading] = useState(false);
-	const route = useRouter();
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		if (email == "" || password == "") {
-			toast.error("Please fill mandatory fields");
-			return;
-		}
-		SetLoading(true);
-		if (email == "admin" && password == "pass") {
-			handleData(email);
-		} else {
-			toast.error("Invalid Credentials");
-			SetLoading(false);
-		}
-	};
-	const handleData = async (email) => {
-		const stateData = {
-			token: "123445",
-			userId: "1234",
-			email: email,
-			name: "Ahmad Hassan Khan",
-		};
-		const userState = { user: stateData };
-		setState({
-			user: stateData,
-		});
-		window.localStorage.setItem(
-			"bhook_admin_auth",
-			JSON.stringify(userState)
-		);
-		route.push("/home");
-	};
-	if (state && state.user && route.isReady)
-		route.push("/home");
+export default function Home() {
 	return (
-		<div className="container">
-			<div className="row">
-				<div className="col text-center">
-					<h3 className="my-5">Login</h3>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-md-6 offset-md-3 border py-3">
-					<AuthForm
-						handleSubmit={handleSubmit}
-						email={email}
-						SetEmail={SetEmail}
-						password={password}
-						SetPassword={SetPassword}
-						loading={loading}
-						page="login"
-					/>
-				</div>
-			</div>
-		</div>
+		<Box>
+			<SocialBar />
+			<TopBar />
+			<Services />
+			<Trades />
+			<Grid
+				container
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					mb: 5,
+				}}
+			>
+				<Grid
+					item
+					xs={8}
+					sx={{
+						textAlign: "center",
+					}}
+				>
+					<Typography
+						sx={{
+							color: "#F00",
+							textAlign: "center",
+							fontSize: { xs: "15px", sm: "32px" },
+							fontStyle: "normal",
+							fontWeight: "800",
+							lineHeight: "normal",
+							mt: 10,
+						}}
+					>
+						If You Have Any Further Queries, You Can Call Us
+						At +1347 480-1903 Or Email At
+						Info@blueBookestimator.Com
+					</Typography>
+					<Typography
+						sx={{
+							color: "#F00",
+							textAlign: "center",
+							fontSize: { xs: "15px", sm: "32px" },
+							fontStyle: "normal",
+							fontWeight: "800",
+							lineHeight: "normal",
+							mt: 3,
+						}}
+					>
+						Or You Can Upload Your Plans In The Link Below
+						To Get A Quote In The Next 5 Minutes.
+					</Typography>
+					<Button
+						sx={{
+							color: "#FFF",
+							backgroundColor: "#F00",
+							textAlign: "center",
+							fontSize: { xs: "18px", sm: "32px" },
+							fontStyle: "normal",
+							fontWeight: "800",
+							lineHeight: "normal",
+							mt: 3,
+							width: { xs: 200, sm: 350 },
+							borderRadius: 2,
+							"&:hover": {
+								bgcolor: "#337AB7",
+								color: "#FFF",
+							},
+						}}
+					>
+						Upload Your Plan
+					</Button>
+				</Grid>
+			</Grid>
+			<Footer />
+		</Box>
 	);
-};
-
-export default index;
+}
